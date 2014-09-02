@@ -1,6 +1,16 @@
 Flask==0.10.1
+Flask-Cors==1.8.0
+Flask-Login==0.2.11
+Flask-RESTful==0.2.12
 Jinja2==2.7.3
 MarkupSafe==0.23
 Werkzeug==0.9.6
+aniso8601==0.83
 itsdangerous==0.24
+mongoengine==0.8.7
+passlib==1.6.2
+pymongo==2.7.2
+pytz==2014.7
+six==1.7.3
+validate-email==1.2
 wsgiref==0.1.2
