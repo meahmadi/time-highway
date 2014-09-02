@@ -1,0 +1,23 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "authors": [
+    "Vahid Kharazi <vahid@kharazi.net>"
+  ],
+  "description": "TimeHighway",
+  "main": "app.py",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "5.4.0",
+    "angular": "~1.2.23"
+  }
+}
