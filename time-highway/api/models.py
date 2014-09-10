@@ -1,6 +1,6 @@
 from mongoengine import Document, StringField,\
     DateTimeField, EmailField, ListField, ReferenceField, BooleanField\
-    EmbeddedDocumentField, FloatField, IntField
+    EmbeddedDocumentField, FloatField, IntField, GenericReferenceField
 import datetime
 
 
@@ -10,7 +10,7 @@ class UserModel(Document):
     email = EmailField(max_length=100, required=True, unique=True)
     password = StringField(min_length=1, max_length=200, required=True)
     signup_date = DateTimeField(default=datetime.datetime.utcnow)
-    event = ReferenceField('EventModel') # Root event
+    stories = ListField(ReferenceField('StoryModel')) # Root story
 
     def is_active(self):
         return True
@@ -51,11 +51,11 @@ class DTModel(EmbeddedDocument):
 
 class EventDataModel(EmbeddedDocument):
     what = StringField()
-
+    
 
 class EventModel(Document):
-    story = ReferenceField('StoryModel')
-    source = DateTimeField(default=datetime.datetime.utcnow, required=False) # Issue #2
+    parent = ReferenceField('EventModel', required=False)
+    source = DateTimeField(default=datetime.datetime.utcnow) # Issue #2
     data = EmbeddedDocumentField(EventDataModel)
     t = EmbeddedDocument(TModel)
     dt = EmbeddedDocument(DTModel)
@@ -68,12 +68,13 @@ class EventModel(Document):
     ) 
 
 
-class storyModel(Document):
+class StoryModel(Document):
     name = StringField(max_length=100, required=True)
     description = StringField()
+    items = ListField(ReferenceField('EventModel'))
     # owner = ReferenceField(UserModel, required=True)
-    sub_storys = ListField(ReferenceField('storyModel'))
-    events = ListField(ReferenceField(EventModel))
+    # sub_storys = ListField(ReferenceField('storyModel'))
+    # events = ListField(ReferenceField(EventModel))
     permissions = ListField(
         EmbeddedDocumentField(PermissionModel)
     )
