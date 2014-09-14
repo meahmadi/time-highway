@@ -1,5 +1,5 @@
-from mongoengine import Document, StringField,\
-    DateTimeField, EmailField, ListField, ReferenceField, BooleanField\
+from mongoengine import Document,EmbeddedDocument, StringField,\
+    DateTimeField, EmailField, ListField, ReferenceField, BooleanField,\
     EmbeddedDocumentField, FloatField, IntField, GenericReferenceField
 import datetime
 
@@ -57,8 +57,8 @@ class EventModel(Document):
     parent = ReferenceField('EventModel', required=False)
     source = DateTimeField(default=datetime.datetime.utcnow) # Issue #2
     data = EmbeddedDocumentField(EventDataModel)
-    t = EmbeddedDocument(TModel)
-    dt = EmbeddedDocument(DTModel)
+    t = EmbeddedDocumentField(TModel)
+    dt = EmbeddedDocumentField(DTModel)
     tags = ListField(StringField(max_length=50))
     types = ListField(StringField(max_length=50))
     
