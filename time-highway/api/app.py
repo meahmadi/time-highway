@@ -51,11 +51,7 @@ def signup():
             return jsonify({'err': 'Password too short.'}), 400
         try:
             pass_hash = pwd_context.encrypt(args['password'])
-            if False:#args['device_token']:
-                u = UserModel(email=args['email'],
-                              password=pass_hash).save()
-            else:
-                u = UserModel(email=args['email'], password=pass_hash).save()
+            u = UserModel(email=args['email'], password=pass_hash).save()
 
         except ValidationError as e:
             err = ''
