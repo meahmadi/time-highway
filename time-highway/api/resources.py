@@ -11,7 +11,7 @@ from bson.errors import InvalidId
 
 from models import UserModel, EventModel
 from logger import logger
-from validation import auth_parser
+from validation import auth_parser, get_event_parser, add_event_parser
 
 def format_datetime(value):
     return value.strftime('%Y-%m-%d %H:%M:%S.%f')
@@ -44,13 +44,29 @@ event_fields = {
     'dt': fields.Nested(event_dt_fields),
 }
 
+stories_fields = {
+	'stories': fields.List,
+}
+
+class UserStoriesModel(Resource):
+
+	def get(self):
+		try:
+			stories = g.user.stories
+        except ValidationError:
+            return {}, 404
+
+        data = marshal(stories, stories_fields)
+        return {'data': data}
+
+
 class EventModel(Resource):
 
 	def post(self):
-		pass
+		args = add_event_parser.parse_args()
 
 	def get(self):
-		args = event_parser.parse_args()
+		args = get_event_parser.parse_args()
         try:
             event = EventModel.objects(pk=args['event_id']).first()
         except ValidationError:

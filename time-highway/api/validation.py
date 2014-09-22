@@ -23,5 +23,10 @@ auth_parser.add_argument('password', type=unicode, required=True)
 group_parser = reqparse.RequestParser()
 group_parser.add_argument('members', type=list, required=True)
 
-event_parser = reqparse.RequestParser()
-event_parser.add_argument('event_id', type=str)
+user_parser = reqparse.RequestParser()
+
+get_event_parser = reqparse.RequestParser()
+get_event_parser.add_argument('event_id', type=str)
+
+add_event_parser = reqparse.RequestParser()
+add_event_parser.add_argument()

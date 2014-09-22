@@ -26,6 +26,8 @@ connect('timehighway', host=MONGO_HOST, port=MONGO_PORT,
         username=MONGO_USERNAME, password=MONGO_PASSWORD)
 
 api.add_resource(EventResource, url('/event'))
+api.add_resource(EventResource, url('/user/stories'))
+
 
 
 @login_manager.user_loader
