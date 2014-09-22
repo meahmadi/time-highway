@@ -19,3 +19,9 @@ def email_type(value):
 auth_parser = reqparse.RequestParser()
 auth_parser.add_argument('email', type=email_type, required=True)
 auth_parser.add_argument('password', type=unicode, required=True)
+
+group_parser = reqparse.RequestParser()
+group_parser.add_argument('members', type=list, required=True)
+
+event_parser = reqparse.RequestParser()
+event_parser.add_argument('event_id', type=str)
