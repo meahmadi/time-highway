@@ -9,7 +9,7 @@ from settings import *
 from utils import url
 from models import UserModel
 from validation import auth_parser
-
+from resource import EventResource
 
 
 app = Flask(__name__)
@@ -24,6 +24,8 @@ api.decorators = [login_required, cross_origin(headers=['Content-Type'])]
 
 connect('timehighway', host=MONGO_HOST, port=MONGO_PORT,
         username=MONGO_USERNAME, password=MONGO_PASSWORD)
+
+api.add_resource(EventResource, url('/event'))
 
 
 @login_manager.user_loader
