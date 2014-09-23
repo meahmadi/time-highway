@@ -48,7 +48,7 @@ stories_fields = {
 	'stories': fields.List,
 }
 
-class UserStoriesModel(Resource):
+class UserStoriesResource(Resource):
 
 	def get(self):
 		try:
@@ -60,7 +60,26 @@ class UserStoriesModel(Resource):
         return {'data': data}
 
 
-class EventModel(Resource):
+    def post(self):
+        args = add_story_parser.parse_args()
+
+        try:
+            events = list()
+            for e in args['events']:
+                event = EventModel.objects(pk=e).first()
+                events.append(event)
+        except:
+            return {'err': 'Event not found.'}, 404
+
+
+        try:
+            g.user.stories.append(events)
+            g.user.save()
+            
+        except:
+            return {'err': 'Error while saving.'}, 404
+
+class EventResource(Resource):
 
 	def post(self):
 		args = add_event_parser.parse_args()

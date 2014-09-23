@@ -36,3 +36,5 @@ add_event_parser.add_argument('t', type=dict)
 add_event_parser.add_argument('dt', type=dict)
 add_event_parser.add_argument('types', type=str, action='append')
 add_event_parser.add_argument('tags', type=str, action='append')
+
+add_story_parser.add_argument('events', type=str, action='append')
