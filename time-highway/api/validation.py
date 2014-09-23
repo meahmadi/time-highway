@@ -38,3 +38,6 @@ add_event_parser.add_argument('types', type=str, action='append')
 add_event_parser.add_argument('tags', type=str, action='append')
 
 add_story_parser.add_argument('events', type=str, action='append')
+
+story_parser.add_argument('story_id', type=str)
+story_parser.add_argument('events', type=str, action='append')

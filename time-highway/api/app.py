@@ -9,7 +9,7 @@ from settings import *
 from utils import url
 from models import UserModel
 from validation import auth_parser
-from resource import EventResource
+from resource import EventResource, StoryResource, UserStoriesResource
 
 
 app = Flask(__name__)
@@ -26,6 +26,7 @@ connect('timehighway', host=MONGO_HOST, port=MONGO_PORT,
         username=MONGO_USERNAME, password=MONGO_PASSWORD)
 
 api.add_resource(EventResource, url('/event'))
+api.add_resource(StoryResource, url('/user/story'))
 api.add_resource(UserStoriesResource, url('/user/stories'))
 
 

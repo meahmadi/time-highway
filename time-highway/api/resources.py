@@ -9,7 +9,7 @@ from mongoengine import ValidationError
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
-from models import UserModel, EventModel
+from models import UserModel, EventModel, StoryModel
 from logger import logger
 from validation import auth_parser, get_event_parser, add_event_parser
 
@@ -48,6 +48,37 @@ stories_fields = {
 	'stories': fields.List,
 }
 
+class StoryResource(Resource):
+
+    def post(self):
+        args = story_parser.parse_args()
+
+        try:
+            story = StoryModel.objects(pk=args['story_id']).first()
+        except ValidationError:
+            return {}, 404
+
+        # Basic permission implemention, must change
+        if story not in g.user.stories:
+            return {}, 403
+
+        try:
+            events = list()
+            for e in args['events']:
+                event = EventModel.objects(pk=e).first()
+                events.append(event)
+        
+        except:
+            return {'err': 'Event not found.'}, 404
+
+        try:
+            g.user.stories.append(events)
+            g.user.save()
+
+        except:
+            return {'err': 'Error while saving.'}, 404 
+
+
 class UserStoriesResource(Resource):
 
 	def get(self):
@@ -75,7 +106,7 @@ class UserStoriesResource(Resource):
         try:
             g.user.stories.append(events)
             g.user.save()
-            
+
         except:
             return {'err': 'Error while saving.'}, 404
 
