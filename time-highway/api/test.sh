@@ -4,7 +4,7 @@
 OPTIONS="-i -b cook -c cook"
 
 if [[ -z "$2" ]]; then
-  BASEURL=http://api.timehighway.ir
+  BASEURL='localhost:5000'
 else
   BASEURL=$2
 fi
