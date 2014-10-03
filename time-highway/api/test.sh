@@ -22,4 +22,6 @@ case "$1" in
   logout)
     curl -H "Content-Type: application/json" $OPTIONS -X POST $BASEURL/users/logout
     ;;
+  userstory)
+	curl -H "Content-Type: application/json" $OPTIONS -X GET $BASEURL/user/stories
 esac

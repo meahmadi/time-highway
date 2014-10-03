@@ -80,14 +80,14 @@ class StoryResource(Resource):
 
 class UserStoriesResource(Resource):
 
-	# def get(self):
-	# 	try:
-	# 		stories = g.user.stories
- #        except ValidationError:
- #            return {}, 404
+    def get(self):
+        try:
+            stories = g.user.stories
+        except ValidationError:
+            return {}, 404
 
- #        data = marshal(stories, stories_fields)
- #        return {'data': data}
+        data = marshal(stories, stories_fields)
+        return {'data': data}
 
 
     def post(self):

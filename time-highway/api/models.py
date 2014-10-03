@@ -70,7 +70,7 @@ class EventModel(Document):
 
 class StoryModel(Document):
     name = StringField(max_length=100, required=True)
-    description = StringField()
+    desc = StringField()
     items = ListField(ReferenceField('EventModel'))
     # owner = ReferenceField(UserModel, required=True)
     # sub_storys = ListField(ReferenceField('storyModel'))
