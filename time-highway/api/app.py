@@ -9,7 +9,7 @@ from settings import *
 from utils import url
 from models import UserModel
 from validation import auth_parser
-from resource import EventResource, StoryResource, UserStoriesResource
+from resources import EventResource, StoryResource, UserStoriesResource
 
 
 app = Flask(__name__)

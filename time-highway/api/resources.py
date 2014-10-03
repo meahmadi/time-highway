@@ -10,7 +10,6 @@ from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
 from models import UserModel, EventModel, StoryModel
-from logger import logger
 from validation import auth_parser, get_event_parser, add_event_parser
 
 def format_datetime(value):
@@ -28,7 +27,7 @@ event_data_fields = {
 event_t_fields = {
 	'val': fields.String,
 	'type': fields.String,
-	'gran': fields.Int,
+	'gran': fields.Float,
 	'prob': fields.Float,
 }
 
@@ -37,7 +36,7 @@ event_dt_fields = event_t_fields.copy()
 event_fields = {
 	'parent': fields.String,
 	'source': DateTimeField,
-	'data': fields.Nested(event_data_fields)
+	'data': fields.Nested(event_data_fields),
     'types': fields.List,
     'tags': fields.List,
     't': fields.Nested(event_t_fields),
@@ -81,14 +80,14 @@ class StoryResource(Resource):
 
 class UserStoriesResource(Resource):
 
-	def get(self):
-		try:
-			stories = g.user.stories
-        except ValidationError:
-            return {}, 404
+	# def get(self):
+	# 	try:
+	# 		stories = g.user.stories
+ #        except ValidationError:
+ #            return {}, 404
 
-        data = marshal(stories, stories_fields)
-        return {'data': data}
+ #        data = marshal(stories, stories_fields)
+ #        return {'data': data}
 
 
     def post(self):
@@ -115,16 +114,16 @@ class EventResource(Resource):
 	def post(self):
 		args = add_event_parser.parse_args()
 
-	def get(self):
-		args = get_event_parser.parse_args()
-        try:
-            event = EventModel.objects(pk=args['event_id']).first()
-        except ValidationError:
-            return {}, 404
+	# def get(self):
+	# 	args = get_event_parser.parse_args()
+ #        try:
+ #            event = EventModel.objects(pk=args['event_id']).first()
+ #        except ValidationError:
+ #            return {}, 404
 
-        if event:
-        	data = marshal(event, event_fields)
-        	return {'data': data}
-		else:
-            return {'err': 'Event not found.'}, 404
+ #        if event:
+ #        	data = marshal(event, event_fields)
+ #        	return {'data': data}
+ #        else:
+ #            return {'err': 'Event not found.'}, 404
 
