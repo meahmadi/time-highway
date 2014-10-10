@@ -30,4 +30,14 @@ def fake_user():
 		u.save()
 
 if __name__ == '__main__':
+	u = UserModel(
+		firstname='vahid',
+		lastname='kharazi',
+		email='vahid@kharazi.net',
+
+	)
+	pass_hash = pwd_context.encrypt('123qwe')
+	u.password = pass_hash
+	u.stories = [random.choice(STORIES) for i in range(random.randint(1, 4))]
+	u.save() 
 	fake_user()

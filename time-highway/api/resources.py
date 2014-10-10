@@ -10,7 +10,7 @@ from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
 from models import UserModel, EventModel, StoryModel
-from validation import auth_parser, get_event_parser, add_event_parser
+from validation import auth_parser, get_event_parser, add_event_parser, story_parser
 
 def format_datetime(value):
     return value.strftime('%Y-%m-%d %H:%M:%S.%f')
@@ -43,9 +43,6 @@ event_fields = {
     'dt': fields.Nested(event_dt_fields),
 }
 
-stories_fields = {
-	'stories': fields.List,
-}
 
 class StoryResource(Resource):
 
@@ -55,11 +52,11 @@ class StoryResource(Resource):
         try:
             story = StoryModel.objects(pk=args['story_id']).first()
         except ValidationError:
-            return {}, 404
+            return {'err': 'Story not found.'}, 404
 
         # Basic permission implemention, must change
         if story not in g.user.stories:
-            return {}, 403
+            return {'err': 'You do not have access.'}, 403
 
         try:
             events = list()
@@ -76,19 +73,26 @@ class StoryResource(Resource):
 
         except:
             return {'err': 'Error while saving.'}, 404 
+        
+        return {'successful': True}
+
+    def get(self):
+        pass
 
 
 class UserStoriesResource(Resource):
 
     def get(self):
+        data = []
         try:
             stories = g.user.stories
         except ValidationError:
             return {}, 404
 
-        data = marshal(stories, stories_fields)
+        data = {
+            'stories': [str(s.id) for s in stories],    
+        }
         return {'data': data}
-
 
     def post(self):
         args = add_story_parser.parse_args()
